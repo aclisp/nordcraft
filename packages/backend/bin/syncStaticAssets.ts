@@ -4,6 +4,7 @@ import { RESET_STYLES } from '@nordcraft/core/dist/styling/theme.const'
 import type { ProjectFiles, ToddleProject } from '@nordcraft/ssr/dist/ssr.types'
 import { splitRoutes } from '@nordcraft/ssr/dist/utils/routes'
 import fs from 'fs'
+import { set } from 'lodash-es'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
@@ -28,15 +29,15 @@ if (fs.existsSync(staticDir)) {
   fs.rmdirSync(staticDir, { recursive: true })
 }
 fs.mkdirSync(staticDir, { recursive: true })
-;[
-  'page.main.esm.js',
-  'page.main.esm.js.map',
-  'custom-element.main.esm.js',
-].forEach((f) => {
-  const source = resolvePath('../node_modules/@nordcraft/runtime/dist', f)
-  const destination = resolvePath('../dist/assets/_static', f)
-  fs.copyFileSync(source, destination)
-})
+  ;[
+    'page.main.esm.js',
+    'page.main.esm.js.map',
+    'custom-element.main.esm.js',
+  ].forEach((f) => {
+    const source = resolvePath('../node_modules/@nordcraft/runtime/dist', f)
+    const destination = resolvePath('../dist/assets/_static', f)
+    fs.copyFileSync(source, destination)
+  })
 fs.writeFileSync(resolvePath('../dist/assets/_static/reset.css'), RESET_STYLES)
 
 // Read the project.json file and split it into routes and files
@@ -49,6 +50,14 @@ const { project, routes, files, styles, code } = splitRoutes({
   branchName: 'main',
   files: json.files,
   project: json.project,
+})
+// Set project config
+set(project, 'config.meta.icon', {
+  formula: {
+    type: 'value',
+    value:
+      'https://cms.aclisp.xyz/assets/45ebce5f-3cc1-446b-9a27-69de7728a21a/favicon.png',
+  },
 })
 // Create a stylesheet for each component
 Object.entries(styles).forEach(([name, style]) => {

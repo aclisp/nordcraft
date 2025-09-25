@@ -229,9 +229,26 @@ export const getHeadItems = ({
           )}" />`,
         )
       } else {
+        headItems.set('link:icon', '<link rel="icon" href="/favicon.ico" />')
         headItems.set(
-          'link:icon',
-          `<link rel="icon" href="${escapeAttrValue(iconPath)}" />`,
+          'link:shortcut-icon',
+          `<link rel="shortcut icon" href="${escapeAttrValue(iconPath)}" />`,
+        )
+        headItems.set(
+          'link:apple-touch-icon',
+          `<link rel="apple-touch-icon" sizes="180x180" href="${escapeAttrValue(iconPath)}" />`,
+        )
+        headItems.set(
+          'link:icon:16',
+          `<link rel="icon" type="image/png" sizes="16x16" href="${escapeAttrValue(iconPath)}" />`,
+        )
+        headItems.set(
+          'link:icon:32',
+          `<link rel="icon" type="image/png" sizes="32x32" href="${escapeAttrValue(iconPath)}" />`,
+        )
+        headItems.set(
+          'link:mask-icon',
+          `<link rel="mask-icon" href="${escapeAttrValue(iconPath)}" color="#171717" />`,
         )
       }
     }

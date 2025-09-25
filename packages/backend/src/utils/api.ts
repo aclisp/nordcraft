@@ -346,6 +346,9 @@ const executeFetchCall = async (request: Request) => {
       request.headers.delete('cf-connecting-ip')
       request.headers.delete('host')
     }
+    // Since host is a Forbidden_request_header, we need to remove it before
+    // sending the request from the backend, or it throws ERR_TLS_CERT_ALTNAME_INVALID
+    request.headers.delete('host')
     const response = await fetch(request)
     return response
   } catch (e: any) {

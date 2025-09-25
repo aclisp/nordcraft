@@ -1,5 +1,5 @@
 # -------- BUILD STAGE --------
-FROM oven/bun:1.3.3-debian AS build
+FROM --platform=linux/amd64 oven/bun:1.3.3-debian AS build
 
 WORKDIR /app
 
@@ -31,7 +31,7 @@ RUN bun build --compile --minify --sourcemap ./packages/backend/src/bun.index.ts
 # Our application runner. Use gcr.io/distroless/nodejs24-debian12:debug to allow debugging
 # using docker run -it --entrypoint=sh nordcraft-backend
 # see https://github.com/GoogleContainerTools/distroless
-FROM gcr.io/distroless/base-debian12 AS runner
+FROM --platform=linux/amd64 gcr.io/distroless/base-debian12 AS runner
 
 ENV NODE_ENV=production
 
