@@ -17,6 +17,7 @@ import { robots } from './routes/robots'
 import { routeHandler } from './routes/routeHandler'
 import { serviceWorker } from './routes/serviceWorker'
 import { sitemap } from './routes/sitemap'
+import { proxyWechatHandler } from './routes/wechatProxy'
 
 export const getApp = <T extends Record<string, any>>(options: {
   getConnInfo: GetConnInfo
@@ -61,6 +62,8 @@ export const getApp = <T extends Record<string, any>>(options: {
       options.getConnInfo(requestContext),
     ),
   )
+  // Proxy endpoint for Wechat Offiaccount
+  app.all('/wechat-api-proxy/*', proxyWechatHandler)
   app.get('/.nordcraft/cookies/set-cookie', setCookieHandler)
 
   // Load project info and all routes for endpoints below to use
